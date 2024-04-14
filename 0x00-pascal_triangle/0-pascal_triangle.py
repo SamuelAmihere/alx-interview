@@ -2,6 +2,7 @@
 """Pascal's Triangle
 """
 
+
 def pascal_triangle(n):
     """Pascal's Triangle: Python implementation"""
     if type(n) is not int:
