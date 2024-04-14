@@ -4,22 +4,6 @@
 
 This Python function generates Pascal's Triangle up to `n` rows.
 
-## Function Signature
-
-```python
-def pascal_triangle(n: int) -> List[List[int]]:
-
-```
-
-Here's how you can explain the code in an academic format, suitable for a README file:
-
-```markdown
-# Pascal's Triangle Python Implementation
-
-This Python function generates Pascal's Triangle up to `n` rows.
-
-## Function Signature
-
 ```python
 def pascal_triangle(n: int) -> List[List[int]]:
 ```
