@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """AI is creating summary for
 a text file with a single character H
 """
