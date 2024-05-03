@@ -23,8 +23,10 @@ def check_line(line):
         <status code> <file size>
     """
     import re
-    pattern = r"(\d+\.\d+\.\d+\.\d+) - \[(\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+)\] "\
-              r"\"[^\"]*\" (\d+) (\d+)"
+    pattern = r"\s*(\S+)\s*-"\
+              r"\s*\[(\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+)\]"\
+              r"\s*\"[^\"]*\"\s*(\S+)"\
+              r"\s*(\d+)"
     match = re.match(pattern, line)
     if match:
         return match.groups(), True
