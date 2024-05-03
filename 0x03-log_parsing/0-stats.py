@@ -62,7 +62,7 @@ def main():
             if count == 10:
                 print_stats(file_size, status_codes)
                 count = 0
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError):
         print_stats(file_size, status_codes)
         raise
 
