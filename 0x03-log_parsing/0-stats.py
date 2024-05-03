@@ -24,7 +24,7 @@ def check_line(line):
     """
     import re
     pattern = r"(\d+\.\d+\.\d+\.\d+) - \[(\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+)\] "\
-              r"\"GET /projects/260 HTTP/1.1\" (\d+) (\d+)"
+              r"\"[^\"]*\" (\d+) (\d+)"
     match = re.match(pattern, line)
     if match:
         return match.groups(), True
