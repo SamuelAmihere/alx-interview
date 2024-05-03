@@ -10,10 +10,10 @@ def print_stats(file_size, status_codes):
     """
     Prints the file size and status codes
     """
-    print("File size: {}".format(file_size))
+    print("File size: {}".format(file_size), flush=True)
     for key in sorted(status_codes.keys()):
         if status_codes[key] != 0:
-            print("{}: {}".format(key, status_codes[key]))
+            print("{}: {}".format(key, status_codes[key]), flush=True)
 
 
 def check_line(line):
