@@ -23,8 +23,8 @@ def check_line(line):
         <status code> <file size>
     """
     import re
-    pattern = r"(\d+\.\d+\.\d+\.\d+) - \[(.+)\] \"GET /projects/260 "\
-              r"HTTP/1.1\" (\d+) (\d+)"
+    pattern = r"(\d+\.\d+\.\d+\.\d+) - \[(\d+\-\d+\-\d+ \d+:\d+:\d+\.\d+)\] "\
+              r"\"GET /projects/260 HTTP/1.1\" (\d+) (\d+)"
     match = re.match(pattern, line)
     if match:
         return match.groups(), True
