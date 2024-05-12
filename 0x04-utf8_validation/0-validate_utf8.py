@@ -10,7 +10,7 @@ def validUTF8(data):
     UTF-8 encoding.
     """
     if not data or len(data) == 0:
-        return False
+        return
 
     n_bytes = 0
     i = 0
