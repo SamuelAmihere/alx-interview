@@ -9,7 +9,7 @@ def validUTF8(data):
     Determines if a given data set represents a valid
     UTF-8 encoding.
     """
-    if not data:
+    if not data or len(data) == 0:
         return False
 
     n_bytes = 0
