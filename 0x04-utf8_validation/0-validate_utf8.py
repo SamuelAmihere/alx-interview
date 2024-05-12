@@ -12,7 +12,7 @@ def validUTF8(data):
     data: list of integers
     """
     if not data or len(data) == 0:
-        return
+        return False
 
     n_bytes = 0
     i = 0
@@ -20,7 +20,7 @@ def validUTF8(data):
     while i < len(data):
         num = data[i]
 
-        if num < 0 or type(num) != int or num > 0x10ffff:
+        if type(num) != int or num < 0 or num > 0x10ffff:
             return False
 
         bin_rep = format(num, '#010b')[-8:]
