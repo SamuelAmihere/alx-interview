@@ -11,9 +11,6 @@ def validUTF8(data):
 
     data: list of integers
     """
-    if not data or len(data) == 0:
-        return False
-
     n_bytes = 0
     i = 0
 
