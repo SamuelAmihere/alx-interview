@@ -2,7 +2,7 @@
 const request = require('request');
 const API_URL = 'https://swapi.dev/api/films';
 
-function fetchCharacterNames (characterUrls) {
+function fetchCharacterNames(characterUrls) {
   return characterUrls.map((url) => {
     return new Promise((resolve, reject) => {
       request(url, (error, _, body) => {
@@ -18,26 +18,27 @@ function fetchCharacterNames (characterUrls) {
 }
 
 if (process.argv.length > 2) {
-  const movieId = process.argv[2];
-  const movieUrl = `${API_URL}/${movieId}/`;
-
-  request(movieUrl, (err, _, body) => {
+  request(`${API_URL}/${process.argv[2]}/`, (err, _, body) => {
     if (err) {
       console.log(err);
       return;
     }
+    const charactersURL = JSON.parse(body).characters;
+    const charactersName = charactersURL.map(
+      url => new Promise((resolve, reject) => {
+        request(url, (promiseErr, __, charactersReqBody) => {
+          if (promiseErr) {
+            reject(promiseErr);
+          }
+          resolve(JSON.parse(charactersReqBody).name);
+        });
+      }));
 
-    const movieData = JSON.parse(body);
-    const characterUrls = movieData.characters;
-
-    const characterPromises = fetchCharacterNames(characterUrls);
-
-    Promise.all(characterPromises)
-      .then((names) => {
-        console.log(names.join('\n'));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    Promise.all(charactersName)
+      .then(names => console.log(names.join('\n')))
+      .catch(allErr => console.log(allErr));
   });
+} else {
+  console.error('Please provide a movie ID as a positional argument.');
+  process.exit(1);
 }
