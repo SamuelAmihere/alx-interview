@@ -1,32 +1,55 @@
 #!/usr/bin/node
 const request = require('request');
-const { promisify } = require('util');
-const requestPromise = promisify(request);
+const API_URL = 'https://swapi.dev/api/films';
 
-async function getCharacters(movieId) {
-    const url = `https://swapi.dev/api/films/${movieId}/`;
-
-    try {
-        const response = await requestPromise(url);
-        const movieData = JSON.parse(response.body);
-        const characterUrls = movieData.characters;
-
-        const characterPromises = characterUrls.map(async (characterUrl) => {
-            const characterResponse = await requestPromise(characterUrl);
-            const characterData = JSON.parse(characterResponse.body);
-            console.log(characterData.name);
+function fetchCharacterNames(characterUrls) {
+    return characterUrls.map(url => {
+        return new Promise((resolve, reject) => {
+            request(url, (error, _, body) => {
+                if (error) {
+                    reject(error);
+                } else {
+                    const characterData = JSON.parse(body);
+                    resolve(characterData.name);
+                }
+            });
         });
-
-        await Promise.all(characterPromises);
-    } catch (error) {
-        console.error('An error occurred:', error);
-    }
+    });
 }
 
-const movieId = process.argv[2];
-if (!movieId) {
+if (process.argv.length > 2) {
+    const movieId = process.argv[2];
+    const movieUrl = `${API_URL}/${movieId}/`;
+
+    console.time('Total time for getCharacters');
+
+    request(movieUrl, (err, _, body) => {
+        console.timeEnd('Total time for getCharacters');
+
+        if (err) {
+            console.error('An error occurred:', err);
+            return;
+        }
+
+        const movieData = JSON.parse(body);
+        const characterUrls = movieData.characters;
+
+        console.time('Time for fetching character data');
+
+        const characterPromises = fetchCharacterNames(characterUrls);
+
+        Promise.all(characterPromises)
+            .then(names => {
+                console.timeEnd('Time for fetching character data');
+                console.log(names.join('\n'));
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+                console.timeEnd('Time for fetching character data');
+            });
+    });
+} else {
     console.error('Please provide a movie ID as a positional argument.');
     process.exit(1);
 }
 
-getCharacters(movieId);
