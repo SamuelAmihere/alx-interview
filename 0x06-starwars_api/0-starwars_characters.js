@@ -23,7 +23,7 @@ if (process.argv.length > 2) {
 
   request(movieUrl, (err, _, body) => {
     if (err) {
-      console.error('An error occurred:', err);
+      console.log(err);
       return;
     }
 
@@ -37,10 +37,7 @@ if (process.argv.length > 2) {
         console.log(names.join('\n'));
       })
       .catch((error) => {
-        console.error('An error occurred:', error);
+        console.log(error);
       });
   });
-} else {
-  console.error('Please provide a movie ID as a positional argument.');
-  process.exit(1);
 }
