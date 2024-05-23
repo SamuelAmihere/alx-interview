@@ -1,6 +1,6 @@
 #!/usr/bin/node
 const request = require('request');
-const API_URL = 'https://swapi-api.hbtn.io/api/films';
+const API_URL = 'https://swapi.dev/api/films';
 
 function fetchCharacterNames(characterUrls) {
   return characterUrls.map((url) => {
