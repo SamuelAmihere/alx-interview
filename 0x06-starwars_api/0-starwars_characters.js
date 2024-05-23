@@ -1,30 +1,26 @@
 #!/usr/bin/node
 const request = require('request');
+const { promisify } = require('util');
+const requestPromise = promisify(request);
 
-function getCharacters(movieId) {
+async function getCharacters(movieId) {
     const url = `https://swapi.dev/api/films/${movieId}/`;
 
-    request(url, (error, response, body) => {
-        if (error) {
-            console.error('An error occurred:', error);
-            return;
-        }
-
-        const movieData = JSON.parse(body);
+    try {
+        const response = await requestPromise(url);
+        const movieData = JSON.parse(response.body);
         const characterUrls = movieData.characters;
 
-        characterUrls.forEach((characterUrl, index) => {
-            request(characterUrl, (error, response, body) => {
-                if (error) {
-                    console.error('An error occurred:', error);
-                    return;
-                }
-
-                const characterData = JSON.parse(body);
-                console.log(characterData.name);
-            });
+        const characterPromises = characterUrls.map(async (characterUrl) => {
+            const characterResponse = await requestPromise(characterUrl);
+            const characterData = JSON.parse(characterResponse.body);
+            console.log(characterData.name);
         });
-    });
+
+        await Promise.all(characterPromises);
+    } catch (error) {
+        console.error('An error occurred:', error);
+    }
 }
 
 const movieId = process.argv[2];
