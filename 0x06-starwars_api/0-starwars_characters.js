@@ -33,11 +33,7 @@ if (process.argv.length > 2) {
     const characterPromises = fetchCharacterNames(characterUrls);
 
     Promise.all(characterPromises)
-      .then((names) => {
-        console.log(names.join('\n'));
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+      .then(names => console.log(names.join('\n')))
+      .catch(allErr => console.log(allErr));
   });
 }
