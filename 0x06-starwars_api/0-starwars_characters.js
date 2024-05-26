@@ -1,9 +1,9 @@
 #!/usr/bin/node
 const request = require('request');
-const API_URL = 'https://swapi.dev/api/films';
+const API_URL = 'https://swapi-api.hbtn.io/api';
 
-function fetchCharacterNames (url) {
-  request(url, (err, _, body) => {
+if (process.argv.length > 2) {
+  request(`${API_URL}/films/${process.argv[2]}/`, (err, _, body) => {
     if (err) {
       console.log(err);
     }
@@ -22,10 +22,4 @@ function fetchCharacterNames (url) {
       .then(names => console.log(names.join('\n')))
       .catch(allErr => console.log(allErr));
   });
-}
-
-if (process.argv.length > 2) {
-  const movieId = process.argv[2];
-  const movieUrl = `${API_URL}/${movieId}/`;
-  fetchCharacterNames (movieUrl);
 }
